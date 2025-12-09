@@ -1,0 +1,90 @@
+<?php
+//Объявление переменных
+$name = "Anna";
+$age = 30;
+$is_student = false;
+
+
+//Использование операторов
+$birth_year = date("Y") - $age;
+$greeting = "Здравствуйте, " . $name. "!";
+
+
+//Условная конструкция 
+$status = $is_student ? "Студент" : "Не студент";
+
+
+//Вывод информации
+echo $greeting. "Вам" . $age . "лет . Статус: " . $status;
+
+
+// Демонстрраия дополнительных возможностей РНР
+$hobbies = ["чтение", "путешествия", "праграммирование"];
+echo "<br>Увлечения: " . implode(", ", $hobbies);
+
+echo "<br> Увлечения подробно: ";
+
+foreach ($hobbies as $index => $hobby) {
+    echo "<br>" .  ($index + 1) . ". " . $hobby;
+}
+
+function getBirthdayYear($age) {
+    return date("Y") - $age;
+}
+
+echo "<br>Год рождения (вычисленно в функции): " . getBirthdayYear($age);
+
+class Person {
+    public function __construct($name, $age) {
+        $this->name = $name;
+        $this->age = $age;
+    }
+
+    public function getinfo() {
+        return "Объект: {$this->name}, {$this->age} лет";
+    }
+}
+
+$person = new Person($name, $age);
+echo "<br>" . $person->getinfo();
+
+$birthday = new DateTime("$birth_year-06-15");
+echo "<br>День рождения: " . $birthday->format('d.m.Y');
+
+if ($age >= 18) {
+    echo "<br> Совершеннолетний(яя)"; 
+} else {
+    echo "<br> Несовершеннолетний(яя)";
+}
+
+echo "<br>Имя в верхнем регистре: " . strtoupper($name);
+echo "<br>Длина имени: " . strlen($name) . " символов";
+
+$jsonData = json_encode(["name" => $name, "age" => $age]);
+echo "<br>JSON представление: " . $jsonData;
+
+echo "<br>через 5 лет будет: " . ($age + 5) . "лет";
+
+
+//Работу с файлами
+file_put_contents( 'user_data.txt', "Имя: $name, Возраст: $age");
+echo "<br>Данные записаны в файл user_data.txt";
+
+//Добавка работ с сессиями (если запущенна сессия)
+if (session_status() === PHP_SESSION_NONE) {
+    session_start();
+}
+$_SESSION['user_name'] = $name;
+echo "<br>Имя пользователя сохраннено в сессии: " .  $_SESSION['user_name'];
+
+// Добавить обработку форм
+echo '<br><br>Пример формы:
+<form method="POST">
+    <input type="text" name="test_input" placeholder="Введите текст">
+    <input type="submit" value="Отправить">
+</form>';
+
+if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['test_input'])){
+    echo "<br>Вы ввели: " . htmlspecialchars($_POST['test_input']);
+}
+?> 
